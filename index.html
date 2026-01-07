@@ -3,170 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMINAE Control-Bridge v0.3</title>
+    <title>LUMINAE Sensory Bridge v0.9 (Safe Edition)</title>
     <style>
-        /* --- HIGH TECH AESTHETICS --- */
-        body {
-            font-family: 'Courier New', Courier, monospace;
-            /* FIX: Von transparent zu Deep Black geändert für GitHub Standalone View */
-            background-color: #000000; 
-            color: #f0f0f0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+        body { font-family: 'Courier New', monospace; background: #050505; color: #f0f0f0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
+        #visual-stage { width: 100%; max-width: 800px; height: 450px; display: flex; justify-content: center; align-items: center; position: relative; margin-bottom: 20px; }
+        #robot-image { max-height: 100%; max-width: 100%; object-fit: contain; transition: filter 0.8s ease, transform 0.5s ease; }
+
+        /* --- REFINED BEHAVIORS (SAFETY & ACCESSIBILITY) --- */
+        
+        /* 01 PULSE: Slower, organic breathing */
+        .anim-pulse { animation: p 2.5s infinite ease-in-out; } 
+        @keyframes p { 0%, 100% { filter: drop-shadow(0 0 10px #E0FFFF); } 50% { filter: drop-shadow(0 0 35px #E0FFFF); } }
+
+        /* 02 FLOW: Steady buildup */
+        .anim-flow { animation: f 1.5s infinite ease-in-out; } 
+        @keyframes f { 0%, 100% { filter: drop-shadow(0 0 15px #FFBF00); } 50% { filter: drop-shadow(0 0 50px #FFBF00); } }
+
+        /* 03 BREATH: Calm healthy system */
+        .anim-breath { animation: b 5s infinite ease-in-out; } 
+        @keyframes b { 0%, 100% { filter: drop-shadow(0 0 15px #40E0D0); } 50% { filter: drop-shadow(0 0 70px #40E0D0); } }
+
+        /* 04 FLICKER: Slowed for safety (No seizure risk) */
+        .anim-flicker { animation: fl 1s infinite alternate; } 
+        @keyframes fl { 0% { filter: drop-shadow(0 0 25px #9932CC); opacity: 1; } 100% { filter: drop-shadow(0 0 10px #9932CC); opacity: 0.85; } }
+
+        /* 05 JITTER: Minimal mechanical micro-tremor */
+        .anim-static { animation: s 0.3s infinite; } 
+        @keyframes s { 0%, 100% { filter: drop-shadow(0 0 12px #FF4500); transform: translate(0.3px, 0.3px); } 50% { transform: translate(-0.3px, -0.3px); } }
+
+        .anim-idle { filter: drop-shadow(0 0 5px #0A0A23); opacity: 0.4; }
+
+        /* --- ADAPTIVE CARE LAYER OVERRIDE --- */
+        .care-active #robot-image {
+            filter: sepia(1) saturate(2.5) hue-rotate(-35deg) brightness(1.1) drop-shadow(0 0 60px #FFD700) !important;
+            animation-duration: 10s !important; /* Maximum calm */
         }
 
-        h1 {
-            font-size: 14px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        /* --- THE CORE (BIOLUMINESCENCE) --- */
-        #core-container {
-            width: 200px;
-            height: 200px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        #core {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: #0A0A23; 
-            box-shadow: 0 0 30px #0A0A23;
-            transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        /* --- THE ADAPTIVE CARE LOGIC (CSS FILTER HACK) --- */
-        .care-active #core {
-            filter: sepia(100%) saturate(300%) hue-rotate(-30deg) brightness(1.2) !important;
-            box-shadow: 0 0 60px #FFD700 !important;
-            transform: scale(0.95);
-        }
-
-        /* --- CONTROL GRID --- */
-        #control-bridge {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            width: 100%;
-            max-width: 600px;
-            padding: 0 20px;
-        }
-
-        button {
-            padding: 12px 10px;
-            font-size: 11px;
-            font-family: inherit;
-            letter-spacing: 1px;
-            cursor: pointer;
-            border: 1px solid #333;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #aaa;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        button:hover, button.active {
-            border-color: #fff;
-            color: #fff;
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        /* --- TOGGLE SWITCH UI --- */
-        #adaptive-care-toggle {
-            margin-top: 40px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            border: 1px solid #FFD700;
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: #FFD700;
-            font-size: 12px;
-            transition: background 0.3s;
-        }
-
-        #adaptive-care-toggle:hover {
-            background: rgba(255, 215, 0, 0.1);
-        }
-
-        #adaptive-care-checkbox {
-            accent-color: #FFD700;
-        }
-
+        #system-log { width: 90%; max-width: 600px; height: 75px; background: rgba(0, 20, 0, 0.9); border-left: 3px solid #00FFFF; color: #00FF00; font-size: 11px; padding: 10px; margin-bottom: 20px; white-space: pre-line; box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); }
+        #control-bridge { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 600px; }
+        button { padding: 12px; font-size: 10px; font-family: inherit; cursor: pointer; border: 1px solid #333; background: rgba(255, 255, 255, 0.05); color: #888; text-transform: uppercase; }
+        button:hover, button.active { border-color: #fff; color: #fff; background: rgba(255, 255, 255, 0.1); }
+        #adaptive-care-toggle { margin-top: 25px; display: flex; align-items: center; gap: 10px; cursor: pointer; border: 1px solid #FFD700; padding: 10px 20px; border-radius: 30px; color: #FFD700; font-size: 11px; }
     </style>
 </head>
 <body>
-
-    <h1>Luminae Control-Bridge</h1>
-
-    <div id="core-container">
-        <div id="core"></div>
-    </div>
-
+    <div id="visual-stage"><img id="robot-image" src="State 6.png" alt="Luminae Robot"></div>
+    <div id="system-log">> LUMINAE CONTROL BRIDGE v0.9 (SAFE EDITION) ONLINE...</div>
     <div id="control-bridge">
-        <button data-state="01_AWARENESS">01 Awareness</button>
-        <button data-state="02_INTENT">02 Intent</button>
-        <button data-state="03_HIGH_CONFIDENCE">03 High Conf</button>
-        <button data-state="04_MED_CONFIDENCE">04 Med Conf</button>
-        <button data-state="05_LOW_CONFIDENCE">05 Low Conf</button>
-        <button data-state="06_IDLE_SLEEP">06 Idle</button>
+        <button data-state="01">01 Awareness</button>
+        <button data-state="02">02 Intent</button>
+        <button data-state="03">03 High Conf</button>
+        <button data-state="04">04 Med Conf</button>
+        <button data-state="05">05 Low Conf</button>
+        <button data-state="06">06 Idle</button>
     </div>
-
-    <label id="adaptive-care-toggle">
-        <input type="checkbox" id="adaptive-care-checkbox">
-        ADAPTIVE CARE LAYER [OVERRIDE]
-    </label>
+    <label id="adaptive-care-toggle"><input type="checkbox" id="adaptive-care-checkbox"> ADAPTIVE CARE MODIFIER (OVERRIDE)</label>
 
     <script>
-        const luminaeData = {
-            "states": {
-                "01_AWARENESS": { "hex": "#E0FFFF" },
-                "02_INTENT": { "hex": "#FFBF00" },
-                "03_HIGH_CONFIDENCE": { "hex": "#40E0D0" },
-                "04_MED_CONFIDENCE": { "hex": "#9932CC" },
-                "05_LOW_CONFIDENCE": { "hex": "#FF4500" },
-                "06_IDLE_SLEEP": { "hex": "#0A0A23" }
-            }
+        // Filenames matched exactly to GitHub screenshot
+        const protocol = {
+            "01": { img: "State1.png", anim: "anim-pulse", log: "CONTEXT: SUBJECT LOCK\nSIGNAL: I SEE YOU | COLOR: CYAN" },
+            "02": { img: "State2.png", anim: "anim-flow", log: "CONTEXT: TRAJECTORY PROJECTED\nSIGNAL: ENERGY BUILD-UP | COLOR: AMBER" },
+            "03": { img: "State 3.png", anim: "anim-breath", log: "CONTEXT: FLOW STATE\nSIGNAL: SYSTEM HEALTHY | COLOR: TEAL" },
+            "04": { img: "State 4.png", anim: "anim-flicker", log: "CONTEXT: COGNITIVE LOAD\nSIGNAL: CALCULATING... | COLOR: VIOLET" },
+            "05": { img: "State 5.png", anim: "anim-static", log: "CONTEXT: MECHANICAL BLOCK\nSIGNAL: SAFETY FREEZE | COLOR: MAGMA RED" },
+            "06": { img: "State 6.png", anim: "anim-idle", log: "CONTEXT: PRIVACY ACTIVE\nSIGNAL: DORMANT | COLOR: MIDNIGHT BLUE" }
         };
 
-        const core = document.getElementById('core');
+        const robotImg = document.getElementById('robot-image');
+        const systemLog = document.getElementById('system-log');
         const buttons = document.querySelectorAll('#control-bridge button');
-        const adaptiveCareCheckbox = document.getElementById('adaptive-care-checkbox');
-        const body = document.body;
+        const careCheckbox = document.getElementById('adaptive-care-checkbox');
 
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                buttons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                const state = button.dataset.state;
-                const visual = luminaeData.states[state];
-                core.style.backgroundColor = visual.hex;
-                core.style.boxShadow = `0 0 30px ${visual.hex}`;
-            });
+        function updateDisplay(stateId) {
+            const data = protocol[stateId];
+            robotImg.src = data.img;
+            robotImg.className = data.anim;
+            const logPrefix = careCheckbox.checked ? "> [CARE OVERRIDE ACTIVE]\n" : "";
+            systemLog.innerText = logPrefix + `> ${data.log}`;
+        }
+
+        buttons.forEach(btn => btn.addEventListener('click', () => {
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            updateDisplay(btn.dataset.state);
+        }));
+
+        careCheckbox.addEventListener('change', () => {
+            document.body.classList.toggle('care-active', careCheckbox.checked);
+            const activeBtn = document.querySelector('button.active') || buttons[5];
+            activeBtn.click();
         });
 
-        adaptiveCareCheckbox.addEventListener('change', () => {
-            if(adaptiveCareCheckbox.checked) {
-                body.classList.add('care-active');
-            } else {
-                body.classList.remove('care-active');
-            }
-        });
-
-        buttons[5].click(); // Init Idle
+        buttons[5].click(); // Initialize with State 6
     </script>
 </body>
 </html>
