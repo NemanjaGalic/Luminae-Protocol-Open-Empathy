@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMINAE Control-Bridge v0.2</title>
+    <title>LUMINAE Control-Bridge v0.3</title>
     <style>
         /* --- HIGH TECH AESTHETICS --- */
         body {
-            font-family: 'Courier New', Courier, monospace; /* Monospace for Tech-Look */
-            background-color: transparent; /* Transparent for Carrd Integration */
+            font-family: 'Courier New', Courier, monospace;
+            /* FIX: Von transparent zu Deep Black geändert für GitHub Standalone View */
+            background-color: #000000; 
             color: #f0f0f0;
             display: flex;
             flex-direction: column;
@@ -47,17 +48,16 @@
         }
 
         /* --- THE ADAPTIVE CARE LOGIC (CSS FILTER HACK) --- */
-        /* This transforms ANY state color into Warm Gold [cite: 97] */
         .care-active #core {
             filter: sepia(100%) saturate(300%) hue-rotate(-30deg) brightness(1.2) !important;
-            box-shadow: 0 0 60px #FFD700 !important; /* Gold Glow */
-            transform: scale(0.95); /* Velocity/Motion Dampening Visualized */
+            box-shadow: 0 0 60px #FFD700 !important;
+            transform: scale(0.95);
         }
 
         /* --- CONTROL GRID --- */
         #control-bridge {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 Columns */
+            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
             width: 100%;
             max-width: 600px;
@@ -90,7 +90,7 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
-            border: 1px solid #FFD700; /* Gold Border */
+            border: 1px solid #FFD700;
             padding: 10px 20px;
             border-radius: 30px;
             color: #FFD700;
@@ -131,15 +131,14 @@
     </label>
 
     <script>
-        // DATA MATRIX [cite: 22-92]
         const luminaeData = {
             "states": {
-                "01_AWARENESS": { "hex": "#E0FFFF" }, // Electric Cyan
-                "02_INTENT": { "hex": "#FFBF00" },    // Amber
-                "03_HIGH_CONFIDENCE": { "hex": "#40E0D0" }, // Neon Teal
-                "04_MED_CONFIDENCE": { "hex": "#9932CC" },  // Dark Violet
-                "05_LOW_CONFIDENCE": { "hex": "#FF4500" },  // Magma Red
-                "06_IDLE_SLEEP": { "hex": "#0A0A23" }       // Midnight Blue
+                "01_AWARENESS": { "hex": "#E0FFFF" },
+                "02_INTENT": { "hex": "#FFBF00" },
+                "03_HIGH_CONFIDENCE": { "hex": "#40E0D0" },
+                "04_MED_CONFIDENCE": { "hex": "#9932CC" },
+                "05_LOW_CONFIDENCE": { "hex": "#FF4500" },
+                "06_IDLE_SLEEP": { "hex": "#0A0A23" }
             }
         };
 
@@ -148,37 +147,26 @@
         const adaptiveCareCheckbox = document.getElementById('adaptive-care-checkbox');
         const body = document.body;
 
-        // BUTTON LOGIC
         buttons.forEach(button => {
             button.addEventListener('click', () => {
-                // Visual Reset
                 buttons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
-
-                // State Logic
                 const state = button.dataset.state;
                 const visual = luminaeData.states[state];
-                
-                // Update Core Color directly
                 core.style.backgroundColor = visual.hex;
                 core.style.boxShadow = `0 0 30px ${visual.hex}`;
             });
         });
 
-        // ADAPTIVE CARE LOGIC [cite: 94-100]
         adaptiveCareCheckbox.addEventListener('change', () => {
             if(adaptiveCareCheckbox.checked) {
-                // Add class to body/container that triggers the CSS Filter
                 body.classList.add('care-active');
             } else {
                 body.classList.remove('care-active');
             }
         });
 
-        // INIT: Start in Idle
-        buttons[5].click(); // Simulate click on Idle button
-
+        buttons[5].click(); // Init Idle
     </script>
-
 </body>
 </html>
