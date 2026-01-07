@@ -3,40 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMINAE Sensory Bridge v0.9 (Safe Edition)</title>
+    <title>LUMINAE Sensory Bridge v0.9.1</title>
     <style>
         body { font-family: 'Courier New', monospace; background: #050505; color: #f0f0f0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; overflow: hidden; }
         #visual-stage { width: 100%; max-width: 800px; height: 450px; display: flex; justify-content: center; align-items: center; position: relative; margin-bottom: 20px; }
         #robot-image { max-height: 100%; max-width: 100%; object-fit: contain; transition: filter 0.8s ease, transform 0.5s ease; }
 
-        /* --- REFINED BEHAVIORS (SAFETY & ACCESSIBILITY) --- */
-        
-        /* 01 PULSE: Slower, organic breathing */
+        /* --- REDUCED BEHAVIORS (SAFETY OPTIMIZED) --- */
         .anim-pulse { animation: p 2.5s infinite ease-in-out; } 
-        @keyframes p { 0%, 100% { filter: drop-shadow(0 0 10px #E0FFFF); } 50% { filter: drop-shadow(0 0 35px #E0FFFF); } }
+        @keyframes p { 0%, 100% { filter: drop-shadow(0 0 10px #E0FFFF); } 50% { filter: drop-shadow(0 0 30px #E0FFFF); } }
 
-        /* 02 FLOW: Steady buildup */
         .anim-flow { animation: f 1.5s infinite ease-in-out; } 
-        @keyframes f { 0%, 100% { filter: drop-shadow(0 0 15px #FFBF00); } 50% { filter: drop-shadow(0 0 50px #FFBF00); } }
+        @keyframes f { 0%, 100% { filter: drop-shadow(0 0 15px #FFBF00); } 50% { filter: drop-shadow(0 0 45px #FFBF00); } }
 
-        /* 03 BREATH: Calm healthy system */
         .anim-breath { animation: b 5s infinite ease-in-out; } 
-        @keyframes b { 0%, 100% { filter: drop-shadow(0 0 15px #40E0D0); } 50% { filter: drop-shadow(0 0 70px #40E0D0); } }
+        @keyframes b { 0%, 100% { filter: drop-shadow(0 0 15px #40E0D0); } 50% { filter: drop-shadow(0 0 65px #40E0D0); } }
 
-        /* 04 FLICKER: Slowed for safety (No seizure risk) */
-        .anim-flicker { animation: fl 1s infinite alternate; } 
+        /* MED CONF: Flicker slowed down for safety */
+        .anim-flicker { animation: fl 1.2s infinite alternate; } 
         @keyframes fl { 0% { filter: drop-shadow(0 0 25px #9932CC); opacity: 1; } 100% { filter: drop-shadow(0 0 10px #9932CC); opacity: 0.85; } }
 
-        /* 05 JITTER: Minimal mechanical micro-tremor */
-        .anim-static { animation: s 0.3s infinite; } 
+        /* LOW CONF: Shaking reduced to micro-jitter */
+        .anim-static { animation: s 0.4s infinite; } 
         @keyframes s { 0%, 100% { filter: drop-shadow(0 0 12px #FF4500); transform: translate(0.3px, 0.3px); } 50% { transform: translate(-0.3px, -0.3px); } }
 
         .anim-idle { filter: drop-shadow(0 0 5px #0A0A23); opacity: 0.4; }
 
-        /* --- ADAPTIVE CARE LAYER OVERRIDE --- */
+        /* ADAPTIVE CARE MODIFIER (GOLD FILTER) */
         .care-active #robot-image {
             filter: sepia(1) saturate(2.5) hue-rotate(-35deg) brightness(1.1) drop-shadow(0 0 60px #FFD700) !important;
-            animation-duration: 10s !important; /* Maximum calm */
+            animation-duration: 10s !important; 
         }
 
         #system-log { width: 90%; max-width: 600px; height: 75px; background: rgba(0, 20, 0, 0.9); border-left: 3px solid #00FFFF; color: #00FF00; font-size: 11px; padding: 10px; margin-bottom: 20px; white-space: pre-line; box-shadow: 0 0 20px rgba(0, 255, 0, 0.1); }
@@ -47,8 +43,8 @@
     </style>
 </head>
 <body>
-    <div id="visual-stage"><img id="robot-image" src="State 6.png" alt="Luminae Robot"></div>
-    <div id="system-log">> LUMINAE CONTROL BRIDGE v0.9 (SAFE EDITION) ONLINE...</div>
+    <div id="visual-stage"><img id="robot-image" src="" alt="Luminae Robot"></div>
+    <div id="system-log">> LUMINAE CONTROL BRIDGE v0.9.1 ONLINE...</div>
     <div id="control-bridge">
         <button data-state="01">01 Awareness</button>
         <button data-state="02">02 Intent</button>
@@ -60,7 +56,9 @@
     <label id="adaptive-care-toggle"><input type="checkbox" id="adaptive-care-checkbox"> ADAPTIVE CARE MODIFIER (OVERRIDE)</label>
 
     <script>
-        // Filenames matched exactly to GitHub screenshot
+        // Absolute URL to your GitHub Files
+        const baseUrl = "https://nemanjagalic.github.io/Luminae-Protocol-Open-Empathy/";
+
         const protocol = {
             "01": { img: "State1.png", anim: "anim-pulse", log: "CONTEXT: SUBJECT LOCK\nSIGNAL: I SEE YOU | COLOR: CYAN" },
             "02": { img: "State2.png", anim: "anim-flow", log: "CONTEXT: TRAJECTORY PROJECTED\nSIGNAL: ENERGY BUILD-UP | COLOR: AMBER" },
@@ -77,7 +75,8 @@
 
         function updateDisplay(stateId) {
             const data = protocol[stateId];
-            robotImg.src = data.img;
+            // Link image directly from GitHub
+            robotImg.src = baseUrl + data.img;
             robotImg.className = data.anim;
             const logPrefix = careCheckbox.checked ? "> [CARE OVERRIDE ACTIVE]\n" : "";
             systemLog.innerText = logPrefix + `> ${data.log}`;
@@ -95,7 +94,7 @@
             activeBtn.click();
         });
 
-        buttons[5].click(); // Initialize with State 6
+        buttons[5].click(); // Initial State 6
     </script>
 </body>
 </html>
