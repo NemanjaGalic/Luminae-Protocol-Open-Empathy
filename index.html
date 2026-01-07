@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMINAE Control-Bridge</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #control-bridge {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+        }
+        #core {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #0A0A23; /* Initial state: IDLE_SLEEP */
+            box-shadow: 0 0 20px #0A0A23;
+        }
+        .adaptive-care-layer #core {
+            transition: background-color 1.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        #adaptive-care-toggle {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>LUMINAE Control-Bridge</h1>
+
+    <div id="control-bridge">
+        <button data-state="01_AWARENESS">01 Awareness</button>
+        <button data-state="02_INTENT">02 Intent</button>
+        <button data-state="03_HIGH_CONFIDENCE">03 High Confidence</button>
+        <button data-state="04_MED_CONFIDENCE">04 Med Confidence</button>
+        <button data-state="05_LOW_CONFIDENCE">05 Low Confidence</button>
+        <button data-state="06_IDLE_SLEEP">06 Idle/Sleep</button>
+    </div>
+
+    <div id="core"></div>
+
+    <div id="adaptive-care-toggle">
+        <label>
+            <input type="checkbox" id="adaptive-care-checkbox">
+            Adaptive Care Layer
+        </label>
+    </div>
+
+    <script>
+        const luminaeData = {
+    "protocol": "LUMINAE",
+    "version": "0.1.1",
+    "unit_system": "SI",
+    "states": {
+      "01_AWARENESS": {
+        "visual": { "hex": "#E0FFFF", "behavior": "pulse", "frequency_hz": 0.5 },
+        "audio": { "texture": "ping", "frequency_range": "high", "envelope": "exponential_decay" },
+        "kinetic": { 
+          "mode": "owl_motion", 
+          "easing": "cubic-bezier(0.45, 0.05, 0.55, 0.95)",
+          "path": "S-curve",
+          "acceleration_limit": "low"
+        }
+      },
+      "02_INTENT": {
+        "visual": { "hex": "#FFBF00", "behavior": "linear_flow", "direction": "vector_target" },
+        "audio": { "texture": "swoosh", "pitch_bend": "ascending", "envelope": "linear_attack" },
+        "kinetic": { 
+          "mode": "anticipation", 
+          "logic": "telegraphic_counter_move",
+          "pre_movement_offset": "-50mm",
+          "easing": "ease-in-out"
+        }
+      },
+      "03_HIGH_CONFIDENCE": {
+        "visual": { "hex": "#40E0D0", "behavior": "breathing", "period_sec": 4.0 },
+        "audio": { "texture": "drone", "harmonics": "low_mid", "base_freq_hz": 110 },
+        "kinetic": { 
+          "mode": "tai_chi", 
+          "logic": "continuous_fluid_flow",
+          "friction_coefficient": 0.0,
+          "easing": "linear"
+        }
+      },
+      "04_MED_CONFIDENCE": {
+        "visual": { "hex": "#9932CC", "behavior": "jitter_flicker", "randomness": 0.2 },
+        "audio": { "texture": "polyphonic", "pattern": "iterative_staccato" },
+        "kinetic": { 
+          "mode": "floating_point", 
+          "micro_movements": "head_tilt",
+          "jitter_amplitude": "2deg"
+        }
+      },
+      "05_LOW_CONFIDENCE": {
+        "visual": { "hex": "#FF4500", "behavior": "dimming", "min_brightness": 0.2 },
+        "audio": { "texture": "dissonance", "artifact": "white_noise_friction" },
+        "kinetic": { 
+          "mode": "monk_pose", 
+          "posture": "head_bow_folded_arms",
+          "velocity": 0.0,
+          "state": "safety_freeze"
+        }
+      },
+      "06_IDLE_SLEEP": {
+        "visual": { "hex": "#0A0A23", "behavior": "pilot_light", "brightness": 0.1 },
+        "audio": { "texture": "silence", "db": -90 },
+        "kinetic": { 
+          "mode": "docking_pose", 
+          "logic": "minimal_energy_tension",
+          "posture": "chin_down"
+        }
+      }
+    }
+  };
+
+        const core = document.getElementById('core');
+        const buttons = document.querySelectorAll('#control-bridge button');
+        const adaptiveCareCheckbox = document.getElementById('adaptive-care-checkbox');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                const state = button.dataset.state;
+                const visual = luminaeData.states[state].visual;
+                updateCore(visual);
+            });
+        });
+
+        adaptiveCareCheckbox.addEventListener('change', () => {
+            document.body.classList.toggle('adaptive-care-layer', adaptiveCareCheckbox.checked);
+        });
+
+        function updateCore(visual) {
+            core.style.backgroundColor = visual.hex;
+            core.style.boxShadow = `0 0 20px ${visual.hex}`;
+            // Here you could implement the more complex "behavior" animations (pulse, flow, etc.)
+        }
+
+        // Set initial state
+        updateCore(luminaeData.states['06_IDLE_SLEEP'].visual);
+        document.body.classList.toggle('adaptive-care-layer', adaptiveCareCheckbox.checked);
+
+    </script>
+
+</body>
+</html>
